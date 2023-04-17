@@ -19,5 +19,6 @@ RUN go version
 COPY --from=builder /app/main /
 # Application port (optional)
 EXPOSE 8080
+LABEL org.opencontainers.image.description='sample-go-app description'
 # Container start command for production
 CMD ["/main"]
