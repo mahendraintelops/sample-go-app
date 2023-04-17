@@ -16,7 +16,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 
 func handleRequests() {
 	http.HandleFunc("/hello", homePage)
-	fmt.Println("starting server")
+	fmt.Println("starting server : ")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
