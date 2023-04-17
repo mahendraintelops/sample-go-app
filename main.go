@@ -23,3 +23,7 @@ func handleRequests() {
 func main() {
 	handleRequests()
 }
+
+func f() int {
+	return 2
+}
