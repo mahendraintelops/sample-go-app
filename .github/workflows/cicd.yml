@@ -13,36 +13,8 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.20'
-    - name: Build
-      run: go build -v ./...
-    - name: golangci-lint
-      uses: golangci/golangci-lint-action@v3
-      with:
-        version: v1.52.2
-    - name: Test
-      run: go test -v ./... -race -coverprofile=coverage.out -covermode=atomic
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-  publish-docker-image:
-    if: gitHub.event_name != 'pull_request'
-    needs: build-and-test
-    env:
-      REGISTRY: ghcr.io
-      GH_URL: https://github.com
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      id-token: write
-    steps:
-      - name: Checkout GitHub Action
-        uses: actions/checkout@v2
-        # setup Docker build action
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Run Trivy vulnerability scanner in fs mode
         uses: aquasecurity/trivy-action@master
         with:
@@ -60,6 +32,34 @@ jobs:
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+      - name: Build
+        run: go build -v ./...
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.52.2
+      - name: Test
+        run: go test -v ./... -race -coverprofile=coverage.out -covermode=atomic
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+  publish-docker-image:
+    if: gitHub.event_name != 'pull_request'
+    needs: build-and-test
+    env:
+      REGISTRY: ghcr.io
+      GH_URL: https://github.com
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      id-token: write
+    steps:
+      - name: Checkout GitHub Action
+        uses: actions/checkout@v2
+        # setup Docker build action
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
