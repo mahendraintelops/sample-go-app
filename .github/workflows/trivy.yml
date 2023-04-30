@@ -40,7 +40,7 @@ jobs:
         with:
           image-ref: '${{ env.REGISTRY }}/${{ github.repository }}:${{ github.sha }}'
           format: 'sarif'
-          hide-progress: false
+          hide-progress: true
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
 
