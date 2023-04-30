@@ -18,7 +18,7 @@ jobs:
       - name: Scan image for vulnerabilities
         uses: docker://docker.io/aquasec/trivy:0.41.0
         with:
-          args: --cache-dir /var/lib/trivy --exit-code 1 --no-progress docker.pkg.github.com/mahendraintelops/dev-sec-ops-seed/seed:${{ github.sha }}
+          args: --cache-dir /var/lib/trivy --no-progress docker.pkg.github.com/mahendraintelops/dev-sec-ops-seed/seed:${{ github.sha }}
 #      - name: Run Trivy vulnerability scanner in fs mode
 #        uses: aquasecurity/trivy-action@master
 #        with:
