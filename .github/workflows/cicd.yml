@@ -87,19 +87,6 @@ jobs:
           exit-code: '1'
           exit-level: 'warn'
           ignore: 'CIS-DI-0001,DKL-DI-0006'
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
-        with:
-          image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_id }}
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH'
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
-          token: ${{ secrets.GH_TOKEN }}
       - name: Install cosign
         uses: sigstore/cosign-installer@main
       - name: Sign the images
