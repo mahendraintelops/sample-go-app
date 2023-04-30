@@ -17,6 +17,7 @@ CMD ["go", "run", "main.go"]
 FROM golang:1.20.2-alpine3.17
 RUN go version
 COPY --from=builder /app/main /
+HEALTHCHECK --interval=30s --timeout=3s CMD curl -f http://localhost:8080/hello || exit 1
 # Application port (optional)
 EXPOSE 8080
 LABEL org.opencontainers.image.description='sample-go-app description goes here'
